@@ -40,18 +40,21 @@ namespace Rebanho_Plus.Repositories
             context.Animais.Add(gado);
             context.SaveChanges();
         }
-        public void Editar(Gado gado)
+        public void Editar(int id)
         {
+            var gado = context.Animais.Find(id);
             context.Animais.Update(gado);
             context.SaveChanges();
         }
-        public void Inativar(Gado gado)
+        public void Inativar(int id)
         {
+            var gado = context.Animais.Find(id);
             gado.Status = Status.inativo;
             context.Update(gado);
         }
-        public void Vender(Gado gado)
+        public void Vender(int id)
         {
+            var gado = context.Animais.Find(id);
             gado.Status = Status.vendido;
             context.Update(gado);
         }

@@ -24,13 +24,15 @@ namespace Rebanho_Plus.Repositories
             context.Aplicacoes.Add(aplicacao);
             context.SaveChanges();
         }
-        public void Editar(Aplicacao aplicacao)
+        public void Editar(int id)
         {
+            var aplicacao = context.Aplicacoes.Find(id);
             context.Aplicacoes.Update(aplicacao);
             context.SaveChanges();
         }
-        public void Inativar(Aplicacao aplicacao)
+        public void Inativar(int id)
         {
+            var aplicacao = context.Aplicacoes.Find(id);
             aplicacao.Status = Status.inativo;
             context.Update(aplicacao);
         }

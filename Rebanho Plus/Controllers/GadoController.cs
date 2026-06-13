@@ -18,6 +18,11 @@ namespace Rebanho_Plus.Controllers
             var animais = repository.BuscarTodos();
             return View(animais);
         }
+        public IActionResult Buscar(int id,int maeId,string raca, Status status)
+        {
+            var animais = repository.Buscar(id, maeId, raca, status);
+            return View(animais);
+        }
         public IActionResult Adicionar()
         {
             return View();
@@ -28,9 +33,9 @@ namespace Rebanho_Plus.Controllers
             repository.Adicionar(gado);
             return RedirectToAction("Index");
         }
-        public IActionResult Inativar(Gado gado) 
+        public IActionResult Inativar(int id) 
         {
-            repository.Inativar(gado);
+            repository.Inativar(id);
             return RedirectToAction("Index");
         }
     }

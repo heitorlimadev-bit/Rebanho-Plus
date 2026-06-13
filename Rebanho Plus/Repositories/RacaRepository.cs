@@ -24,13 +24,15 @@ namespace Rebanho_Plus.Repositories
             context.Racas.Add(raca);
             context.SaveChanges();
         }
-        public void Editar(Raca raca)
+        public void Editar(int id)
         {
+            var raca = context.Racas.Find(id);
             context.Racas.Update(raca);
             context.SaveChanges();
         }
-        public void Inativar(Raca raca)
+        public void Inativar(int id)
         {
+            var raca = context.Racas.Find(id);
             raca.Status = Status.inativo;
             context.Update(raca);
         }

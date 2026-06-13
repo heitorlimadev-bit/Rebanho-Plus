@@ -7,7 +7,7 @@ namespace Rebanho_Plus.Interfaces
         List<Aplicacao> BuscarAplicacoesAnimal(int animalId);
         List<Aplicacao> BuscarAplicacoesInativasAnimal (int animalId);
         void Adicionar(Aplicacao aplicacao);
-        public void Editar(Aplicacao aplicacao);
-        public void Inativar(Aplicacao aplicacao);
+        public void Editar(int id);
+        public void Inativar(int id);
     }
 }

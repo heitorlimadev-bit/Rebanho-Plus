@@ -7,7 +7,7 @@ namespace Rebanho_Plus.Interfaces
         List<Raca> BuscarTodos();
         List<Raca> BuscarInativos();
         void Adicionar(Raca raca);
-        public void Editar(Raca raca);
-        public void Inativar(Raca raca);
+        public void Editar(int id);
+        public void Inativar(int id);
     }
 }

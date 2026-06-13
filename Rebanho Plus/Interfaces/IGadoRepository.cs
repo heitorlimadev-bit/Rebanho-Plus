@@ -7,9 +7,9 @@ namespace Rebanho_Plus.Interfaces
         List<Gado> BuscarTodos();
         List<Gado> Buscar(int? id,int? maeId, string? raca, Status status);
         void Adicionar(Gado gado);
-        public void Editar(Gado gado);
-        public void Inativar(Gado gado);
-        public void Vender(Gado gado);
+        public void Editar(int id);
+        public void Inativar(int id);
+        public void Vender(int id);
 
     }
 }
