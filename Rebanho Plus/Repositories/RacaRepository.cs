@@ -13,11 +13,26 @@ namespace Rebanho_Plus.Repositories
         }
         public List<Raca> BuscarTodos()
         {
-            return context.Racas.ToList();
+            return context.Racas.Where(r => r.Status == Status.ativo).ToList();
+        }
+        public List<Raca> BuscarInativos()
+        {
+            return context.Racas.Where(r => r.Status == Status.inativo).ToList();
         }
         public void Adicionar(Raca raca)
         {
             context.Racas.Add(raca);
+            context.SaveChanges();
+        }
+        public void Editar(Raca raca)
+        {
+            context.Racas.Update(raca);
+            context.SaveChanges();
+        }
+        public void Inativar(Raca raca)
+        {
+            raca.Status = Status.inativo;
+            context.Update(raca);
         }
     }
 }

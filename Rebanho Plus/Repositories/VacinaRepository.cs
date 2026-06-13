@@ -13,11 +13,26 @@ namespace Rebanho_Plus.Repositories
         }
         public List<Vacina> BuscarTodos() 
         {
-            return context.Vacinas.ToList();
+            return context.Vacinas.Where(v => v.Status == Status.ativo).ToList();
+        }
+        public List<Vacina> BuscarInativos()
+        {
+            return context.Vacinas.Where(v => v.Status == Status.inativo).ToList();
         }
         public void Adicionar(Vacina vacina) 
         {
             context.Vacinas.Add(vacina);
+            context.SaveChanges();
+        }
+        public void Editar(Vacina vacina)
+        {
+            context.Vacinas.Update(vacina);
+            context.SaveChanges();
+        }
+        public void Inativar (Vacina vacina)
+        {
+            vacina.Status = Status.inativo;
+            context.Update(vacina);
         }
     }
 }

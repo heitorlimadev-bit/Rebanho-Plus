@@ -4,7 +4,6 @@ using Rebanho_Plus.Data;
 
 namespace Rebanho_Plus.Repositories
 {
-
     public class AplicacaoRepository : IAplicacaoRepository
     {
         private ConteudoBanco context;
@@ -14,11 +13,26 @@ namespace Rebanho_Plus.Repositories
         }
         public List<Aplicacao> BuscarAplicacoesAnimal(int gadoId)
         {
-            return context.Aplicacoes.Where(g => g.GadoId == gadoId).ToList();
+            return context.Aplicacoes.Where(g => g.GadoId == gadoId && g.Status == Status.ativo).ToList();
+        }
+        public List<Aplicacao> BuscarAplicacoesInativasAnimal(int gadoId)
+        {
+            return context.Aplicacoes.Where(g => g.GadoId == gadoId && g.Status == Status.inativo).ToList();
         }
         public void Adicionar(Aplicacao aplicacao)
         {
             context.Aplicacoes.Add(aplicacao);
+            context.SaveChanges();
+        }
+        public void Editar(Aplicacao aplicacao)
+        {
+            context.Aplicacoes.Update(aplicacao);
+            context.SaveChanges();
+        }
+        public void Inativar(Aplicacao aplicacao)
+        {
+            aplicacao.Status = Status.inativo;
+            context.Update(aplicacao);
         }
     }
 }
