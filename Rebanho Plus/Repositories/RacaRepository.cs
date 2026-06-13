@@ -15,11 +15,6 @@ namespace Rebanho_Plus.Repositories
         {
             return context.Racas.ToList();
         }
-        public List<Raca> Buscar(int id)
-        {
-            return context.Racas.Where(g => g.Id == id).ToList();
-            // adicionar query
-        }
         public void Adicionar(Raca raca)
         {
             context.Racas.Add(raca);

@@ -15,10 +15,24 @@ namespace Rebanho_Plus.Repositories
         {
             return context.Animais.ToList();
         }
-        public List<Gado> Buscar(int id)
+        public List<Gado> Buscar(int? id, int? maeId, string? raca)
         {
-            return context.Animais.Where(g => g.Id == id).ToList();
-            // adicionar query
+            var query = context.Animais.AsQueryable();
+
+            if (id.HasValue)
+            {
+                query = query.Where(g => g.Id == id);
+            }
+            if (maeId.HasValue)
+            {
+                query = query.Where(g => g.MaeId == maeId);
+            }
+            if (!string.IsNullOrEmpty(raca))
+            {
+                query = query.Where(g => g.Raca.Nome == raca);
+            }
+
+            return query.ToList();
         }
         public void Adicionar(Gado gado)
         {
