@@ -1,0 +1,95 @@
+﻿@model Dictionary<string, List<Rebanho_Plus.Models.Aplicacao>>
+
+@{
+    ViewData["Title"] = "Aplicações";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-success-custom fw-bold mb-0">
+            💉 Aplicações do Animal #@ViewBag.GadoId
+        </h1>
+
+        <p class="text-muted mb-0">
+            Histórico de vacinas aplicadas.
+        </p>
+    </div>
+
+    <a asp-action="Adicionar"
+       asp-route-gadoId="@ViewBag.GadoId"
+       class="btn btn-agro">
+        ➕ Nova Aplicação
+    </a>
+</div>
+
+<div class="card card-agro mb-4">
+    <div class="card-header card-header-agro py-3">
+        ✅ Aplicações Ativas
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-agro mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Vacina</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model["Ativo"])
+                {
+                    <tr>
+                        <td class="ps-4">@item.Vacina.Nome</td>
+                        <td>@item.DataAplicacao.ToString("dd/MM/yyyy")</td>
+
+                        <td class="pe-4 text-end">
+                            <a asp-action="Inativar"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-agro-outline"
+                               onclick="return confirm('Deseja inativar esta aplicação?')">
+                                Inativar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card card-agro">
+    <div class="card-header card-header-agro py-3">
+        📦 Aplicações Inativas
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-agro mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Vacina</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model["Inativo"])
+                {
+                    <tr>
+                        <td class="ps-4">@item.Vacina?.Nome</td>
+                        <td>@item.DataAplicacao.ToString("dd/MM/yyyy")</td>
+
+                        <td class="pe-4 text-end">
+                            <a asp-action="Ativar"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-agro-outline"
+                               onclick="return confirm('Deseja ativar esta aplicação?')">
+                                Ativar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

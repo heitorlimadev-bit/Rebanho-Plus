@@ -1,11 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Rebanho_Plus.Data;
+using Rebanho_Plus.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ConteudoBanco>(Options => Options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<GadoRepository>();
+builder.Services.AddScoped<RacaRepository>();
+builder.Services.AddScoped<AplicacaoRepository>();
+builder.Services.AddScoped<VacinaRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +31,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Gado}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

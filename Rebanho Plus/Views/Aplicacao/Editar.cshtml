@@ -1,0 +1,73 @@
+﻿@model Rebanho_Plus.Models.Aplicacao
+
+@{
+    ViewData["Title"] = "Nova Aplicação";
+}
+
+<div class="mb-4">
+    <a asp-action="Index"
+       asp-route-id="@ViewBag.GadoId"
+       class="btn btn-agro-outline py-2 px-3 mb-3">
+        ⬅️ Voltar
+    </a>
+
+    <h1 class="h2 text-success-custom fw-bold">
+        💉 Nova Aplicação
+    </h1>
+
+    <p class="text-muted">
+        Editar vacinação do animal.
+    </p>
+</div>
+
+<div class="card card-agro max-width-card mx-auto shadow-sm">
+    <div class="card-header card-header-agro py-3">
+        📋 Registro de Aplicação
+    </div>
+
+    <div class="card-body p-4">
+        <form asp-action="Editar" method="post">
+
+            <input type="hidden" asp-for="GadoId" value="@ViewBag.GadoId" />
+
+            <div class="mb-3">
+                <label asp-for="VacinaId" class="form-label fw-medium text-secondary">
+                    Vacina
+                </label>
+
+                <select asp-for="VacinaId" class="form-select" required>
+                    @foreach (var vacina in ViewBag.Vacinas)
+                    {
+                        <option value="@vacina.Id">
+                            @vacina.Nome
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DataAplicacao" class="form-label fw-medium text-secondary">
+                    Data da Aplicação
+                </label>
+
+                <input asp-for="DataAplicacao"
+                       type="date"
+                       class="form-control"
+                       value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a asp-action="Index"
+                   asp-route-id="@ViewBag.GadoId"
+                   class="btn btn-agro-outline">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn btn-agro px-4">
+                    Salvar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

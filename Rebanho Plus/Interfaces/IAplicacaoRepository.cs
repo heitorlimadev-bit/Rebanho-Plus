@@ -1,4 +1,4 @@
-﻿using Rebanho_Plus.Models;
+using Rebanho_Plus.Models;
 
 namespace Rebanho_Plus.Interfaces
 {
@@ -7,7 +7,11 @@ namespace Rebanho_Plus.Interfaces
         List<Aplicacao> BuscarAplicacoesAnimal(int animalId);
         List<Aplicacao> BuscarAplicacoesInativasAnimal (int animalId);
         void Adicionar(Aplicacao aplicacao);
-        public void Editar(int id);
+        public Aplicacao Encontrar(int id);
+        public List<Vacina> EncontrarVacinas();
+        public void Editar(Aplicacao aplicacao);
         public void Inativar(int id);
+        public void Ativar(int id);
+        Aplicacao BuscarPorId(int id);
     }
 }

@@ -17,6 +17,6 @@
         public int MaeId { get; set; }
         public Gado? Mae { get; set; }
         public List<Gado> Filhos { get; set; } = new List<Gado>();
-        public List<Vacina> Vacinas { get; set; } = new List<Vacina>();
+        public List<Aplicacao> Aplicacoes { get; set; } = new List<Aplicacao>();
     }
 }

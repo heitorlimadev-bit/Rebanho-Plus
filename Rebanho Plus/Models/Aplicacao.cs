@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public Status Status { get; set; }
         public int VacinaId { get; set; }
-        public Vacina vacina { get; set; }
+        public Vacina Vacina { get; set; }
         public int GadoId { get; set; }
         public Gado Gado { get; set; }
         public DateTime DataAplicacao { get; set; }

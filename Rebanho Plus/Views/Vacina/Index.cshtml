@@ -1,0 +1,92 @@
+﻿@model Dictionary<string, List<Rebanho_Plus.Models.Vacina>>
+
+@{
+    ViewData["Title"] = "Vacinas";
+}
+<input type="hidden" name="gadoId" value="@ViewBag.GadoId" />
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-success-custom fw-bold mb-0">
+            💉 Controle de Vacinas
+        </h1>
+        <p class="text-muted mb-0">
+            Gerencie as vacinas cadastradas.
+        </p>
+    </div>
+
+    <a asp-action="Adicionar" class="btn btn-agro">
+        ➕ Nova Vacina
+    </a>
+</div>
+
+<div class="card card-agro mb-4">
+    <div class="card-header card-header-agro py-3">
+        📋 Vacinas Ativas
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-agro mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var vacina in Model["Ativo"])
+                {
+                    <tr>
+                        <td class="ps-4 fw-bold">#@vacina.Id</td>
+                        <td>@vacina.Nome</td>
+
+                        <td class="pe-4 text-end">
+                            <a asp-action="Inativar"
+                               asp-controller="Vacina"
+                               asp-route-id="@vacina.Id"
+                               class="btn btn-sm btn-agro-outline">
+                                Inativar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card card-agro">
+    <div class="card-header card-header-agro py-3">
+        📦 Vacinas Inativas
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-agro mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var vacina in Model["Inativo"])
+                {
+                    <tr>
+                        <td class="ps-4 fw-bold">#@vacina.Id</td>
+                        <td>@vacina.Nome</td>
+
+                        <td class="pe-4 text-end">
+                            <a asp-action="Ativar"
+                               asp-controller="Vacina"
+                               asp-route-id="@vacina.Id"
+                               class="btn btn-sm btn-agro-outline">
+                                Ativar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

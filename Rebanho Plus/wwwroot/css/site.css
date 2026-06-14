@@ -1,31 +1,207 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+  --agro-green-dark: #1b4332;
+  --agro-green-primary: #2d6a4f;
+  --agro-green-medium: #40916c;
+  --agro-green-light: #52b788;
+  --agro-green-subtle: #d8f3dc;
+  --agro-bg: #e8f2ea;
+  --text-dark: #2c3e2e;
 }
 
 body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--agro-bg);
+  color: var(--text-dark);
   margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Custom Text and Brand */
+.text-success-custom {
+  color: var(--agro-green-primary) !important;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Navbar customizations */
+.navbar-agro {
+  background-color: var(--agro-green-primary) !important;
+  border-bottom: 3px solid var(--agro-green-dark) !important;
+}
+.navbar-agro .navbar-brand .brand-text {
+  color: #ffffff !important;
+  font-size: 1.4rem;
+  letter-spacing: -0.5px;
+}
+.navbar-agro .navbar-brand .brand-text span {
+  color: var(--agro-green-light) !important;
+}
+.navbar-agro .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.navbar-agro .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #ffffff !important;
+  transition: all 0.3s ease;
+}
+.navbar-agro .nav-link:hover::after, .navbar-agro .nav-link.active::after {
+  width: 80%;
+  left: 10%;
+}
+.navbar-agro .nav-link:hover {
+  color: #ffffff !important;
+}
+
+/* Cards & Containers */
+.card-agro {
+  background: #ffffff;
+  border: 1px solid rgba(45, 106, 79, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-agro:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(45, 106, 79, 0.08);
+}
+.card-header-agro {
+  background-color: var(--agro-bg);
+  border-bottom: 1px solid var(--agro-green-subtle);
+  font-weight: 600;
+  color: var(--agro-green-dark);
+}
+
+/* Buttons */
+.btn-agro {
+  background-color: var(--agro-green-primary);
+  color: white;
+  border: none;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 18px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.btn-agro:hover {
+  background-color: var(--agro-green-dark);
+  color: white;
+}
+.btn-agro:active {
+  transform: scale(0.98);
+}
+
+.btn-agro-outline {
+  background-color: transparent;
+  color: var(--agro-green-primary);
+  border: 1px solid var(--agro-green-primary);
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 18px;
+  transition: all 0.2s ease;
+}
+.btn-agro-outline:hover {
+  background-color: var(--agro-green-subtle);
+  color: var(--agro-green-dark);
+}
+
+.btn-agro-danger {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 18px;
+  transition: all 0.2s ease;
+}
+.btn-agro-danger:hover {
+  background-color: #c32f3a;
+  color: white;
+}
+
+/* Tables */
+.table-agro {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.table-agro tr {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: transform 0.1s ease;
+}
+.table-agro th {
+  background-color: transparent !important;
+  color: var(--agro-green-dark);
+  font-weight: 600;
+  border: none !important;
+  padding: 12px;
+}
+.table-agro td {
+  padding: 14px 12px;
+  vertical-align: middle;
+  border-top: 1px solid var(--agro-green-subtle);
+  border-bottom: 1px solid var(--agro-green-subtle);
+}
+.table-agro td:first-child {
+  border-left: 1px solid var(--agro-green-subtle);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.table-agro td:last-child {
+  border-right: 1px solid var(--agro-green-subtle);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Tabs */
+.nav-tabs-agro {
+  border-bottom: 2px solid var(--agro-green-subtle);
+}
+.nav-tabs-agro .nav-link {
+  border: none;
+  font-weight: 500;
+  color: var(--text-dark);
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+.nav-tabs-agro .nav-link.active {
+  background-color: transparent;
+  color: var(--agro-green-primary) !important;
+  border-bottom: 3px solid var(--agro-green-primary);
+}
+
+/* Form Styling */
+.form-control:focus, .form-select:focus {
+  border-color: var(--agro-green-light);
+  box-shadow: 0 0 0 0.25rem rgba(82, 183, 136, 0.25);
+}
+
+/* Badges */
+.badge-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+.badge-ativo {
+  background-color: var(--agro-green-subtle);
+  color: var(--agro-green-dark);
+  font-weight: 600;
+}
+.badge-inativo {
+  background-color: #f8d7da;
+  color: #842029;
+  font-weight: 600;
+}
+.badge-vendido {
+  background-color: #fff3cd;
+  color: #664d03;
+  font-weight: 600;
+}
+.badge-obito {
+  background-color: #e2e3e5;
+  color: #41464b;
+  font-weight: 600;
 }

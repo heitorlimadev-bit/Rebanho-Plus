@@ -1,0 +1,98 @@
+﻿@model Rebanho_Plus.Models.Gado
+@inject Rebanho_Plus.Repositories.RacaRepository RacaRepo
+
+@{
+    ViewData["Title"] = "Editar Animal";
+    var racasDisponiveis = RacaRepo.BuscarTodos();
+}
+
+<div class="mb-4">
+    <a asp-action="Index" class="btn btn-agro-outline py-2 px-3 mb-3">
+        ⬅️ Voltar para a Listagem
+    </a>
+    <h1 class="h2 text-success-custom fw-bold">🌱 Editar Animal</h1>
+    <p class="text-muted">Preencha as informações para editar o animal no rebanho.</p>
+</div>
+
+<div class="card card-agro max-width-card mx-auto shadow-sm">
+    <div class="card-header card-header-agro py-3">
+        📋 Ficha Cadastral do Animal
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Editar" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Id" class="form-label fw-medium text-secondary">Identificação (ID / Brinco)</label>
+                    <input asp-for="Id" class="form-control" type="number" required placeholder="Digite o número do brinco" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="DataNascimento" class="form-label fw-medium text-secondary">Data de Nascimento</label>
+                    <input asp-for="DataNascimento" class="form-control" type="date" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </div>
+
+                <div class="col-md-12">
+                    <label asp-for="Descricao" class="form-label fw-medium text-secondary">Descrição / Observações</label>
+                    <textarea asp-for="Descricao" class="form-control" rows="2" placeholder="Ex: Nelore mancha preta, dócil..."></textarea>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Genero" class="form-label fw-medium text-secondary">Gênero</label>
+                    <select asp-for="Genero" class="form-select" required>
+                        <option value="1">Macho</option>
+                        <option value="2">Fêmea</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary">Raça</label>
+                    <select name="Raca.Id" class="form-select" required>
+                        <option value="">Selecione uma raça...</option>
+                        @foreach (var r in racasDisponiveis)
+                        {
+                            <option value="@r.Id">@r.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="MaeId" class="form-label fw-medium text-secondary">ID da Mãe (opcional)</label>
+                    <input asp-for="MaeId" class="form-control" type="number" placeholder="Brinco da mãe se houver" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label fw-medium text-secondary">Status</label>
+                    <select asp-for="Status" class="form-select" required>
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
+                        <option value="2">Vendido</option>
+                        <option value="3">Óbito</option>
+                    </select>
+                </div>
+
+                <hr class="my-4 text-secondary opacity-25" />
+                <h5 class="text-success-custom fw-bold mb-3">💰 Informações de Compra</h5>
+
+                <div class="col-md-6">
+                    <label asp-for="ValorCompra" class="form-label fw-medium text-secondary">Valor de Compra (R$)</label>
+                    <input asp-for="ValorCompra" class="form-control" type="number" step="0.01" placeholder="0.00" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="NotaFiscalCompra" class="form-label fw-medium text-secondary">NF de Compra</label>
+                    <input asp-for="NotaFiscalCompra" class="form-control" type="number" placeholder="Número da Nota" />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Fornecedor" class="form-label fw-medium text-secondary">Fornecedor</label>
+                    <input asp-for="Fornecedor" class="form-control" type="text" placeholder="Nome do Fornecedor / Fazenda" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FornecedorCNPJ" class="form-label fw-medium text-secondary">CNPJ do Fornecedor</label>
+                    <input asp-for="FornecedorCNPJ" class="form-control" type="text" placeholder="00.000.000/0000-00" />
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a asp-action="Index" class="btn btn-agro-outline">Cancelar</a>
+                <button type="submit" class="btn btn-agro px-4">Salvar Registro</button>
+            </div>
+        </form>
+    </div>
+</div>

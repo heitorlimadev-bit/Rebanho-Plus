@@ -1,0 +1,41 @@
+@model Rebanho_Plus.Models.Raca
+
+@{
+    ViewData["Title"] = "Cadastrar Raça";
+}
+
+<div class="mb-4">
+    <a asp-action="Index" class="btn btn-agro-outline py-2 px-3 mb-3">
+        ⬅️ Voltar para a Listagem
+    </a>
+    <h1 class="h2 text-success-custom fw-bold">🌱 Cadastrar Nova Raça</h1>
+    <p class="text-muted">Adicione uma nova raça de gado para uso no rebanho.</p>
+</div>
+
+<div class="card card-agro max-width-card mx-auto shadow-sm" style="max-width: 600px;">
+    <div class="card-header card-header-agro py-3">
+        📋 Informações da Raça
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Adicionar" method="post">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label asp-for="Nome" class="form-label fw-medium text-secondary">Nome da Raça</label>
+                    <input asp-for="Nome" class="form-control" type="text" required placeholder="Ex: Nelore, Angus, Jersey" />
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Status" class="form-label fw-medium text-secondary">Status Inicial</label>
+                    <select asp-for="Status" class="form-select" required>
+                        <option value="1" selected>Ativo</option>
+                        <option value="0">Inativo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a asp-action="Index" class="btn btn-agro-outline">Cancelar</a>
+                <button type="submit" class="btn btn-agro px-4">Salvar Registro</button>
+            </div>
+        </form>
+    </div>
+</div>

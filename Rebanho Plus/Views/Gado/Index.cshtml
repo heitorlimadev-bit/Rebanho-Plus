@@ -1,0 +1,230 @@
+@model IEnumerable<Rebanho_Plus.Models.Gado>
+
+@{
+    ViewData["Title"] = "Listagem de Gado";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-success-custom fw-bold mb-0">🌱 Controle do Rebanho</h1>
+        <p class="text-muted mb-0">Gerencie e busque animais cadastrados no sistema.</p>
+    </div>
+    <a asp-action="Adicionar" class="btn btn-agro d-flex align-items-center">
+        <span class="me-2">➕</span> Cadastrar Animal
+    </a>
+</div>
+
+<!-- Filtros de Pesquisa -->
+<div class="card card-agro mb-4">
+    <div class="card-header card-header-agro d-flex align-items-center py-3">
+        <span class="me-2">🔍</span> Filtros de Pesquisa
+    </div>
+    <div class="card-body p-4">
+        <form action="/Gado/Buscar" method="get">
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label fw-medium text-secondary">Brinco / ID</label>
+                    <input type="number" name="id" class="form-control" placeholder="Ex: 123" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-medium text-secondary">ID da Mãe</label>
+                    <input type="number" name="maeId" class="form-control" placeholder="Ex: 45" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-medium text-secondary">Raça</label>
+                    <input type="text" name="raca" class="form-control" placeholder="Ex: Nelore" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-medium text-secondary">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="1" selected>Ativo</option>
+                        <option value="0">Inativo</option>
+                        <option value="2">Vendido</option>
+                        <option value="3">Óbito</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="/Gado/Index" class="btn btn-agro-outline">Limpar Filtros</a>
+                <button type="submit" class="btn btn-agro">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Listagem de Animais -->
+<div class="card card-agro">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-agro mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Brinco / ID</th>
+                        <th>ID Mae</th>
+                        <th>Raça</th>
+                        <th>Gênero</th>
+                        <th>Nascimento</th>
+                        <th>Valor Compra</th>
+                        <th>Valor Venda</th>
+                        <th>Status</th>
+                        <th class="pe-4 text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <div class="fs-4">📭</div>
+                                Nenhum animal encontrado.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">#@item.Id</td>
+                                <td>@item.MaeId</td>
+                                <td>@(item.Raca?.Nome ?? "-")</td>
+                                <td>@item.Genero.ToString()</td>
+                                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                                <td>@(item.ValorCompra.HasValue ? item.ValorCompra.Value.ToString("C") : "-")</td>
+                                <td>@(item.ValorVenda.HasValue ? item.ValorVenda.Value.ToString("C") : "-")</td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case Rebanho_Plus.Models.Status.ativo:
+                                            <span class="badge-status badge-ativo">Ativo</span>
+                                            break;
+                                        case Rebanho_Plus.Models.Status.inativo:
+                                            <span class="badge-status badge-inativo">Inativo</span>
+                                            break;
+                                        case Rebanho_Plus.Models.Status.vendido:
+                                            <span class="badge-status badge-vendido">Vendido</span>
+                                            break;
+                                        case Rebanho_Plus.Models.Status.obito:
+                                            <span class="badge-status badge-obito">Óbito</span>
+                                            break;
+                                    }
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <a asp-controller="Aplicacao" asp-action="Index" asp-route-id="@item.Id" class="btn btn-sm btn-agro py-1 px-2 me-1">
+                                        💉 Vacinas
+                                    </a>
+                                    @if (item.Status == Rebanho_Plus.Models.Status.ativo)
+                                    {
+                                        <a asp-action="Inativar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2" onclick="return confirm('Tem certeza que deseja inativar este animal?');">
+                                            Inativar
+                                        </a>
+                                    }
+                                    @if (item.Status == Rebanho_Plus.Models.Status.inativo)
+                                    {
+                                        <a asp-action="Ativar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2" onclick="return confirm('Tem certeza que deseja ativar este animal?');">
+                                            Ativar
+                                        </a>
+                                    }
+                                    <a asp-controller="Gado" asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2">
+                                        Editar
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-agro-outline py-1 px-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#venderModal"
+                                            data-id="@item.Id">
+                                        💰 Vender
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="venderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content card-agro">
+
+            <div class="modal-header card-header-agro">
+                <h5 class="modal-title">
+                    💰 Registrar Venda
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <form asp-action="Vender" method="post">
+
+                <div class="modal-body">
+
+                    <input type="hidden"
+                           id="gadoId"
+                           name="id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium text-secondary">
+                            Valor da Venda (R$)
+                        </label>
+
+                        <input type="number"
+                               name="valorVenda"
+                               class="form-control"
+                               step="0.01"
+                               min="0"
+                               required
+                               placeholder="0,00" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium text-secondary">
+                            Observação
+                        </label>
+
+                        <textarea name="observacao"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="Observações da venda (opcional)">
+                        </textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-agro-outline"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-agro">
+                        Confirmar Venda
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const modal = document.getElementById('venderModal');
+
+        modal.addEventListener('show.bs.modal', function (event) {
+
+            const button = event.relatedTarget;
+            const gadoId = button.getAttribute('data-id');
+
+            document.getElementById('gadoId').value = gadoId;
+        });
+
+    });
+</script>

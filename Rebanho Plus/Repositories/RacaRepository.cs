@@ -1,4 +1,4 @@
-﻿using Rebanho_Plus.Interfaces;
+using Rebanho_Plus.Interfaces;
 using Rebanho_Plus.Models;
 using Rebanho_Plus.Data;
 
@@ -24,9 +24,13 @@ namespace Rebanho_Plus.Repositories
             context.Racas.Add(raca);
             context.SaveChanges();
         }
-        public void Editar(int id)
+        public Raca Encontrar(int id)
         {
             var raca = context.Racas.Find(id);
+            return raca;
+        }
+        public void Editar(Raca raca)
+        {
             context.Racas.Update(raca);
             context.SaveChanges();
         }
@@ -35,6 +39,14 @@ namespace Rebanho_Plus.Repositories
             var raca = context.Racas.Find(id);
             raca.Status = Status.inativo;
             context.Update(raca);
+            context.SaveChanges();
+        }
+        public void Ativar(int id)
+        {
+            var raca = context.Racas.Find(id);
+            raca.Status = Status.ativo;
+            context.Update(raca);
+            context.SaveChanges();
         }
     }
 }

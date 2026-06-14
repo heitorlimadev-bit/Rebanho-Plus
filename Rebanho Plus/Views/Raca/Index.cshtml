@@ -1,0 +1,135 @@
+@model Dictionary<string, List<Rebanho_Plus.Models.Raca>>
+
+@{
+    ViewData["Title"] = "Listagem de Raças";
+    var ativas = Model.ContainsKey("Ativo") ? Model["Ativo"] : new List<Rebanho_Plus.Models.Raca>();
+    var inativas = Model.ContainsKey("Inativo") ? Model["Inativo"] : new List<Rebanho_Plus.Models.Raca>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-success-custom fw-bold mb-0">🧬 Cadastro de Raças</h1>
+        <p class="text-muted mb-0">Controle as raças de gado registradas no sistema.</p>
+    </div>
+    <a asp-action="Adicionar" class="btn btn-agro">
+        ➕ Cadastrar Raça
+    </a>
+</div>
+
+<!-- Tabs Controladoras com JS -->
+<ul class="nav nav-tabs nav-tabs-agro mb-4" id="racaTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="ativas-tab" data-bs-toggle="tab" data-bs-target="#ativas-content" type="button" role="tab" aria-controls="ativas-content" aria-selected="true">
+            🟢 Ativas (@ativas.Count)
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="inativas-tab" data-bs-toggle="tab" data-bs-target="#inativas-content" type="button" role="tab" aria-controls="inativas-content" aria-selected="false">
+            🔴 Inativas (@inativas.Count)
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="racaTabsContent">
+    <!-- ABA DAS ATIVAS -->
+    <div class="tab-pane fade show active" id="ativas-content" role="tabpanel" aria-labelledby="ativas-tab">
+        <div class="card card-agro">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-agro mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Código / ID</th>
+                                <th>Nome da Raça</th>
+                                <th>Status</th>
+                                <th class="pe-4 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!ativas.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        Nenhuma raça ativa cadastrada.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in ativas)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold">#@item.Id</td>
+                                        <td>@item.Nome</td>
+                                        <td>
+                                            <span class="badge-status badge-ativo">Ativo</span>
+                                        </td>
+                                        <td class="pe-4 text-end">
+                                            <a asp-action="Inativar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2" onclick="return confirm('Tem certeza que deseja inativar esta raça?');">
+                                                Inativar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA DAS INATIVAS -->
+    <div class="tab-pane fade" id="inativas-content" role="tabpanel" aria-labelledby="inativas-tab">
+        <div class="card card-agro">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-agro mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Código / ID</th>
+                                <th>Nome da Raça</th>
+                                <th>Status</th>
+                                <th class="pe-4 text-end">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!inativas.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        Nenhuma raça inativa cadastrada.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in inativas)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-muted">#@item.Id</td>
+                                        <td class="text-muted">@item.Nome</td>
+                                        <td>
+                                            <span class="badge-status badge-inativo">Inativo</span>
+                                        </td>
+                                        <td class="pe-4 text-end text-muted">-</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Custom JS to log or add tracking on tab changes if desired.
+        // The tabs work natively with Bootstrap 5, but we can verify it loads.
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Sistema de abas de Raças carregado com sucesso.");
+        });
+    </script>
+}

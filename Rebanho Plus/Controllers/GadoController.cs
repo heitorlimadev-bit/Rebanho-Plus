@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Rebanho_Plus.Interfaces;
 using Rebanho_Plus.Models;
 using Rebanho_Plus.Repositories;
@@ -18,10 +18,10 @@ namespace Rebanho_Plus.Controllers
             var animais = repository.BuscarTodos();
             return View(animais);
         }
-        public IActionResult Buscar(int id,int maeId,string raca, Status status)
+        public IActionResult Buscar(int? id, int? maeId, string? raca, Status? status)
         {
-            var animais = repository.Buscar(id, maeId, raca, status);
-            return View(animais);
+            var animais = repository.Buscar(id, maeId, raca, status ?? Status.ativo);
+            return View("Index", animais);
         }
         public IActionResult Adicionar()
         {
@@ -33,10 +33,33 @@ namespace Rebanho_Plus.Controllers
             repository.Adicionar(gado);
             return RedirectToAction("Index");
         }
+        public IActionResult Editar(int id)
+        {
+            var gado = repository.Encontrar(id);
+            return View(gado);
+        }
+        [HttpPost]
+        public IActionResult Editar(Gado gado)
+        {
+            repository.Editar(gado);
+            return RedirectToAction("Index");
+        }
         public IActionResult Inativar(int id) 
         {
             repository.Inativar(id);
             return RedirectToAction("Index");
         }
+        public IActionResult Ativar(int id)
+        {  
+            repository.Ativar(id);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Vender(int id,double valorVenda)
+        {
+            repository.Vender(id, valorVenda);
+            return RedirectToAction("Index");
+        }
+         
     }
 }
+

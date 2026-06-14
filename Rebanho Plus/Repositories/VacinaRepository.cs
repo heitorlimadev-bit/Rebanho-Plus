@@ -24,9 +24,13 @@ namespace Rebanho_Plus.Repositories
             context.Vacinas.Add(vacina);
             context.SaveChanges();
         }
-        public void Editar(int id)
+        public Vacina Encontrar(int id)
         {
             var vacina = context.Vacinas.Find(id);
+            return vacina;
+        }
+        public void Editar(Vacina vacina)
+        {
             context.Vacinas.Update(vacina);
             context.SaveChanges();
         }
@@ -35,6 +39,14 @@ namespace Rebanho_Plus.Repositories
             var vacina = context.Vacinas.Find(id);
             vacina.Status = Status.inativo;
             context.Update(vacina);
+            context.SaveChanges();
+        }
+        public void Ativar(int id)
+        {
+            var vacina = context.Vacinas.Find(id);
+            vacina.Status = Status.ativo;
+            context.Update(vacina);
+            context.SaveChanges();
         }
     }
 }

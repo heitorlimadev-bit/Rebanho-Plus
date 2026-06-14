@@ -1,46 +1,45 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rebanho_Plus.Models;
 using Rebanho_Plus.Repositories;
 
 namespace Rebanho_Plus.Controllers
 {
-    public class RacaController : Controller
+    public class VacinaController : Controller
     {
-        private RacaRepository repository;
-        public RacaController(RacaRepository repository)
+        private VacinaRepository repository;
+        public VacinaController(VacinaRepository repository)
         {
             this.repository = repository;
         }
         public IActionResult Index()
         {
-            var racasAtivas = repository.BuscarTodos();
-            var racasInativas = repository.BuscarInativos();
-            Dictionary<string, List<Raca>> todasRacas = new()
+            var vacinasAtivas = repository.BuscarTodos();
+            var vacinasInativas = repository.BuscarInativos();
+            Dictionary<string, List<Vacina>> todasVacinas = new()
             {
-                { "Ativo", racasAtivas },
-                { "Inativo", racasInativas }
+                { "Ativo", vacinasAtivas },
+                { "Inativo", vacinasInativas }
             };
-            return View(todasRacas);
+            return View(todasVacinas);
         }
         public IActionResult Adicionar()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Adicionar(Raca raca)
+        public IActionResult Adicionar(Vacina vacina)
         {
-            repository.Adicionar(raca);
+            repository.Adicionar(vacina);
             return RedirectToAction("Index");
         }
         public IActionResult Editar(int id)
         {
-            var raca = repository.Encontrar(id);
-            return View(raca);
+            repository.Encontrar(id);
+            return RedirectToAction("Index");
         }
-        [HttpPost]
-        public IActionResult Editar(Raca raca)
+        public IActionResult Editar(Vacina vacina)
         {
-            repository.Editar(raca);
+            repository.Editar(vacina);
             return RedirectToAction("Index");
         }
         public IActionResult Inativar(int id)
