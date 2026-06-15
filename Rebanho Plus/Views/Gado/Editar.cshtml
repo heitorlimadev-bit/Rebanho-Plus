@@ -1,4 +1,4 @@
-﻿@model Rebanho_Plus.Models.Gado
+@model Rebanho_Plus.Models.Gado
 @inject Rebanho_Plus.Repositories.RacaRepository RacaRepo
 
 @{
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-6">
                     <label asp-for="DataNascimento" class="form-label fw-medium text-secondary">Data de Nascimento</label>
-                    <input asp-for="DataNascimento" class="form-control" type="date" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <input asp-for="DataNascimento" class="form-control" type="date" required value="@Model.DataNascimento.ToString("yyyy-MM-dd")" />
                 </div>
 
                 <div class="col-md-12">
@@ -48,7 +48,14 @@
                         <option value="">Selecione uma raça...</option>
                         @foreach (var r in racasDisponiveis)
                         {
-                            <option value="@r.Id">@r.Nome</option>
+                            if (Model.Raca != null && Model.Raca.Id == r.Id)
+                            {
+                                <option value="@r.Id" selected>@r.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@r.Id">@r.Nome</option>
+                            }
                         }
                     </select>
                 </div>

@@ -51,7 +51,7 @@ namespace Rebanho_Plus.Repositories
         }
         public Gado Encontrar(int id)
         {
-            var gado = context.Animais.Find(id);
+            var gado = context.Animais.Include(g => g.Raca).FirstOrDefault(g => g.Id == id);
             return gado;
         }
         public void Editar(Gado gado)

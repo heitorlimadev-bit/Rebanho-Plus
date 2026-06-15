@@ -39,13 +39,18 @@ namespace Rebanho_Plus.Controllers
         public IActionResult Editar(int id)
         {
             var aplicacao = repository.Encontrar(id);
+            if (aplicacao != null)
+            {
+                ViewBag.GadoId = aplicacao.GadoId;
+            }
+            ViewBag.Vacinas = repository.EncontrarVacinas();
             return View(aplicacao);
         }
         [HttpPost]
         public IActionResult Editar(Aplicacao Aplicacao)
         {
             repository.Editar(Aplicacao);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = Aplicacao.GadoId });
         }
         public IActionResult Inativar(int id)
         {

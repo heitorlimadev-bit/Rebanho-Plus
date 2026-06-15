@@ -1,92 +1,137 @@
-﻿@model Dictionary<string, List<Rebanho_Plus.Models.Vacina>>
+@model Dictionary<string, List<Rebanho_Plus.Models.Vacina>>
 
 @{
-    ViewData["Title"] = "Vacinas";
+    ViewData["Title"] = "Controle de Vacinas";
+    var ativas = Model.ContainsKey("Ativo") ? Model["Ativo"] : new List<Rebanho_Plus.Models.Vacina>();
+    var inativas = Model.ContainsKey("Inativo") ? Model["Inativo"] : new List<Rebanho_Plus.Models.Vacina>();
 }
-<input type="hidden" name="gadoId" value="@ViewBag.GadoId" />
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h2 text-success-custom fw-bold mb-0">
-            💉 Controle de Vacinas
-        </h1>
-        <p class="text-muted mb-0">
-            Gerencie as vacinas cadastradas.
-        </p>
+        <h1 class="h2 text-success-custom fw-bold mb-0">💉 Controle de Vacinas</h1>
+        <p class="text-muted mb-0">Gerencie as vacinas registradas no sistema.</p>
     </div>
-
     <a asp-action="Adicionar" class="btn btn-agro">
-        ➕ Nova Vacina
+        ➕ Cadastrar Vacina
     </a>
 </div>
 
-<div class="card card-agro mb-4">
-    <div class="card-header card-header-agro py-3">
-        📋 Vacinas Ativas
+<!-- Tabs Controladoras com JS -->
+<ul class="nav nav-tabs nav-tabs-agro mb-4" id="vacinaTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="ativas-tab" data-bs-toggle="tab" data-bs-target="#ativas-content" type="button" role="tab" aria-controls="ativas-content" aria-selected="true">
+            🟢 Ativas (@ativas.Count)
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="inativas-tab" data-bs-toggle="tab" data-bs-target="#inativas-content" type="button" role="tab" aria-controls="inativas-content" aria-selected="false">
+            🔴 Inativas (@inativas.Count)
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="vacinaTabsContent">
+    <!-- ABA DAS ATIVAS -->
+    <div class="tab-pane fade show active" id="ativas-content" role="tabpanel" aria-labelledby="ativas-tab">
+        <div class="card card-agro">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-agro mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Código / ID</th>
+                                <th>Nome da Vacina</th>
+                                <th>Status</th>
+                                <th class="pe-4 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!ativas.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        Nenhuma vacina ativa cadastrada.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in ativas)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold">#@item.Id</td>
+                                        <td>@item.Nome</td>
+                                        <td>
+                                            <span class="badge-status badge-ativo">Ativo</span>
+                                        </td>
+                                        <td class="pe-4 text-end">
+                                            <a asp-action="Inativar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2" onclick="return confirm('Tem certeza que deseja inativar esta vacina?');">
+                                                Inativar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card-body p-0">
-        <table class="table table-agro mb-0">
-            <thead>
-                <tr>
-                    <th class="ps-4">ID</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var vacina in Model["Ativo"])
-                {
-                    <tr>
-                        <td class="ps-4 fw-bold">#@vacina.Id</td>
-                        <td>@vacina.Nome</td>
-
-                        <td class="pe-4 text-end">
-                            <a asp-action="Inativar"
-                               asp-controller="Vacina"
-                               asp-route-id="@vacina.Id"
-                               class="btn btn-sm btn-agro-outline">
-                                Inativar
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <!-- ABA DAS INATIVAS -->
+    <div class="tab-pane fade" id="inativas-content" role="tabpanel" aria-labelledby="inativas-tab">
+        <div class="card card-agro">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-agro mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Código / ID</th>
+                                <th>Nome da Vacina</th>
+                                <th>Status</th>
+                                <th class="pe-4 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!inativas.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        Nenhuma vacina inativa cadastrada.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in inativas)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-muted">#@item.Id</td>
+                                        <td class="text-muted">@item.Nome</td>
+                                        <td>
+                                            <span class="badge-status badge-inativo">Inativo</span>
+                                        </td>
+                                        <td class="pe-4 text-end">
+                                            <a asp-action="Ativar" asp-route-id="@item.Id" class="btn btn-sm btn-agro-outline py-1 px-2" onclick="return confirm('Tem certeza que deseja ativar esta vacina?');">
+                                                Ativar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="card card-agro">
-    <div class="card-header card-header-agro py-3">
-        📦 Vacinas Inativas
-    </div>
-
-    <div class="card-body p-0">
-        <table class="table table-agro mb-0">
-            <thead>
-                <tr>
-                    <th class="ps-4">ID</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var vacina in Model["Inativo"])
-                {
-                    <tr>
-                        <td class="ps-4 fw-bold">#@vacina.Id</td>
-                        <td>@vacina.Nome</td>
-
-                        <td class="pe-4 text-end">
-                            <a asp-action="Ativar"
-                               asp-controller="Vacina"
-                               asp-route-id="@vacina.Id"
-                               class="btn btn-sm btn-agro-outline">
-                                Ativar
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Sistema de abas de Vacinas carregado com sucesso.");
+        });
+    </script>
+}

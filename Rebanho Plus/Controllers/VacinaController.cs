@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Rebanho_Plus.Models;
 using Rebanho_Plus.Repositories;
 
@@ -34,9 +34,10 @@ namespace Rebanho_Plus.Controllers
         }
         public IActionResult Editar(int id)
         {
-            repository.Encontrar(id);
-            return RedirectToAction("Index");
+            var vacina = repository.Encontrar(id);
+            return View(vacina);
         }
+        [HttpPost]
         public IActionResult Editar(Vacina vacina)
         {
             repository.Editar(vacina);

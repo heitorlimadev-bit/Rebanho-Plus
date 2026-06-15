@@ -1,4 +1,4 @@
-﻿@model Rebanho_Plus.Models.Aplicacao
+@model Rebanho_Plus.Models.Aplicacao
 
 @{
     ViewData["Title"] = "Nova Aplicação";
@@ -53,7 +53,7 @@
                 <input asp-for="DataAplicacao"
                        type="date"
                        class="form-control"
-                       value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                       value="@Model.DataAplicacao.ToString("yyyy-MM-dd")" />
             </div>
 
             <div class="d-flex justify-content-end gap-2 mt-4">
